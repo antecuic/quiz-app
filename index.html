@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="wrapper grey lighten-3">
+
+        <div class="center container">
+
+            <a data-target="modal-login" class="waves-effect waves-light btn btn-large purple darken-1 modal-trigger">LogIn</a>
+            <a data-target="modal-signup" class="waves-effect waves-light btn btn-large red darken-1 modal-trigger">SignUp</a>
+
+            <div id="modal-signup" class="modal">
+                <div class="modal-content">
+                    <i class="large material-icons">person_add</i>
+                    <div class="input-field">
+                        <input  id="first_name2" type="text" class="validate">
+                        <label class="active" for="username" style="display: inline-block;">Username</label>
+                    </div>
+                    <div class="input-field">
+                        <input  id="first_name2" type="text" class="validate">
+                        <label class="active" for="Email"style="display: inline-block;">Email</label>
+                    </div>
+                    <div class="input-field">
+                        <input  id="first_name2" type="text" class="validate">
+                        <label class="active" for="password"style="display: inline-block;">Password</label>
+                    </div>  
+                    <button class="btn btn-large waves-effect waves-light green lighten-1 modal-close">Signup</button>    
+                </div>
+            </div>
+
+            <div id="modal-login" class="modal">
+                <div class="modal-content">
+                    <i class="large material-icons">perm_identity</i>
+                    <div class="input-field">
+                        <input  id="first_name2" type="text" class="validate">
+                        <label class="active" for="username" style="display: inline-block;">Username</label>
+                    </div>
+                    <div class="input-field">
+                        <input  id="first_name2" type="text" class="validate">
+                        <label class="active" for="password"style="display: inline-block;">Password</label>
+                    </div>  
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Forgot password?</a>
+                        <button class="btn btn-large waves-effect waves-light green lighten-1 modal-close">login</button>   
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  <script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+</html>

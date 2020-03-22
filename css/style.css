@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row;
+}
+
+.container > .btn {
+    margin: 0 15px 0 15px;
+    opacity: 0.9;
+}
+
+.modal {
+    width: 40%;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+.input-field:not(:last-child) {
+    margin-bottom: 40px;
+}
