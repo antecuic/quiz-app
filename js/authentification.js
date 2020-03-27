@@ -56,8 +56,8 @@ signupForm.addEventListener('submit', e => {
 
     auth.createUserWithEmailAndPassword(email, password)
         .then(result => {
-            return result.user.updateProfile({displayName: usrName})
-        })
-        .then(signupForm.reset())
+                signupForm.reset()
+                return result.user.updateProfile({displayName: usrName})
+            })
         .catch(error => alert(error.message))
 });
