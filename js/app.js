@@ -11,7 +11,8 @@ const authController = (function() {
 
     const signupForm = document.querySelector('#signup-form');
     const loginForm = document.querySelector('#login-form');
-    const btnLogout = document.querySelector('#logout');
+    const userTemplate = document.querySelector('#user');
+    const modals = document.querySelector('.modals');
 
     //login
     loginForm.addEventListener('submit', e => {
@@ -45,7 +46,8 @@ const authController = (function() {
         const newUser = {
             username: usrName,
             mail: email,
-            password: password
+            password: password,
+            score: 0
         }
 
         closeModal();
@@ -59,26 +61,38 @@ const authController = (function() {
             .catch(error => alert(error.message))
     });
 
-
     //state changed
     auth.onAuthStateChanged(async (user) => {
         if(user) {
-            //user logout
-            btnLogout.style.display = 'inline-block';
-            btnLogout.addEventListener('click', () => auth.signOut());
-        
+            const loggedUser = await getUserData(user.uid);
+    
+            userTemplate.style.display = 'flex';
+            modals.style.display = 'none';
+            document.querySelector('#logout').addEventListener('click', () => auth.signOut());
+            displayUser(loggedUser)
+
         } else {
-            btnLogout.style.display = 'none';
-        }
-  
-        const loggedUser = await getUserData(user.uid);
-        
-    });
+            userTemplate.style.display = 'none';
+            modals.style.display = 'block';
+          
+        }        
+ 
+    })
 
     const getUserData = async (uid) => {
         const response = await axios.get(`https://quiz-game-b9909.firebaseio.com/users/${uid}.json`);
         const user = { ...response.data };
         return user;
-    }
+    };
 
+    const displayUser = (user) => {
+        const bestScore = document.querySelector('#best-score');
+        const username = document.querySelector('#username');
+
+        //display stats
+        bestScore.innerHTML = user.score === 0 ? bestScore.innerHTML.replace('%score%', 'Stats are empty') : bestScore.innerHTML.replace('%score%', user.score);
+        
+        //display username
+        username.innerHTML = username.innerHTML.replace('%username%', user.username);
+    };
 })();

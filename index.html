@@ -3,6 +3,7 @@
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.min.css">
     <link rel="stylesheet" href="./css/style.css">
@@ -15,51 +16,72 @@
 
         <div class="center container">
 
-            <a data-target="modal-login" class="waves-effect waves-light btn btn-large purple darken-1 modal-trigger">LogIn</a>
-            <a data-target="modal-signup" class="waves-effect waves-light btn btn-large red darken-1 modal-trigger">SignUp</a>
-            <a id="logout" class="waves-effect waves-light btn btn-large blue lighten-1">LogOut</a>
+            <div id="user">         
+                <div class="user--data"> 
 
-            <div id="modal-login" class="modal">
-                <div class="modal-content">
-                    <i class="large material-icons">perm_identity</i>
-                    <form id="login-form">
-                        <div class="input-field">
-                            <input  id="emailLogin" type="email" class="validate" required>
-                            <label class="active" for="username" style="display: inline-block;">Email</label>
-                        </div>
-                        <div class="input-field">
-                            <input  id="passwordLogin" type="text" class="validate" required>
-                            <label class="active" for="password"style="display: inline-block;">Password</label>
-                        </div>  
-                        <div class="modal-footer">
-                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Forgot password?</a>
-                            <button id="btn-login" class="btn btn-large waves-effect waves-light green lighten-1">login</button>   
-                        </div>
-                    </form>
+                    <div class="user--data__profilePicture"> 
+                            <img src="./assets/head-659651_1920.png" class="avatar">
+                            <p id="username">user: <span style="font-weight: 600;">%username%</span></p>
+                    </div>
+
+                    <div class="user--data__profileStats"> 
+                        <p id="best-score" style="display: inline-block; margin-bottom: 0.5rem;">Best Score: %score%</p>
+                    </div> 
                 </div>
+                <div class="user--content"> 
+                    <a id="logout" class="waves-effect waves-light btn btn-large blue lighten-1">LogOut</a> 
+                </div>
+
             </div>
 
-            <div id="modal-signup" class="modal">
-                <div class="modal-content">
-                    <i class="large material-icons">person_add</i>
-                    <form id="signup-form">
-                        <div class="input-field">
-                            <input  id="usernameSignup" type="text" class="validate" required>
-                            <label class="active" for="username" style="display: inline-block;">Username</label>
-                        </div>
-                        <div class="input-field">
-                            <input  id="emailSignup" type="email" class="validate" required>
-                            <label class="active" for="Email"style="display: inline-block;">Email</label>
-                        </div>
-                        <div class="input-field">
-                            <input  id="passwordSignup" type="text" class="validate" required>
-                            <label class="active" for="password"style="display: inline-block;">Password</label>
-                        </div>  
-                        <button id="btn-signup" class="btn btn-large waves-effect waves-light green lighten-1">Signup</button>    
-                    </form>
+            <div class="modals">
+
+                <a data-target="modal-login" class="waves-effect waves-light btn btn-large purple darken-1 modal-trigger">LogIn</a>
+                <a data-target="modal-signup" class="waves-effect waves-light btn btn-large red darken-1 modal-trigger">SignUp</a>
+                <!--<a id="logout" class="waves-effect waves-light btn btn-large blue lighten-1">LogOut</a>-->
+
+                <div id="modal-login" class="modal">
+                    <div class="modal-content">
+                        <i class="large material-icons">perm_identity</i>
+                        <form id="login-form">
+                            <div class="input-field">
+                                <input  id="emailLogin" type="email" class="validate" required>
+                                <label class="active" for="username" style="display: inline-block;">Email</label>
+                            </div>
+                            <div class="input-field">
+                                <input  id="passwordLogin" type="text" class="validate" required>
+                                <label class="active" for="password"style="display: inline-block;">Password</label>
+                            </div>  
+                            <div class="modal-footer">
+                                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Forgot password?</a>
+                                <button id="btn-login" class="btn btn-large waves-effect waves-light green lighten-1">login</button>   
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="modal-signup" class="modal">
+                    <div class="modal-content">
+                        <i class="large material-icons">person_add</i>
+                        <form id="signup-form">
+                            <div class="input-field">
+                                <input  id="usernameSignup" type="text" class="validate" required>
+                                <label class="active" for="username" style="display: inline-block;">Username</label>
+                            </div>
+                            <div class="input-field">
+                                <input  id="emailSignup" type="email" class="validate" required>
+                                <label class="active" for="Email"style="display: inline-block;">Email</label>
+                            </div>
+                            <div class="input-field">
+                                <input  id="passwordSignup" type="text" class="validate" required>
+                                <label class="active" for="password"style="display: inline-block;">Password</label>
+                            </div>  
+                            <button id="btn-signup" class="btn btn-large waves-effect waves-light green lighten-1">Signup</button>    
+                        </form>
+                    </div>
                 </div>
             </div>
-
+            
         </div>
     </div>
     
@@ -92,8 +114,7 @@
      
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
-    const auth = firebase.auth();
-    //const dataBase = firebase.database();
+    const auth = firebase.auth();   
 
 </script>
 <script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>
