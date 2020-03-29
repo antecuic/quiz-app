@@ -12,33 +12,36 @@
 </head>
 <body>
 
-    <div class="wrapper grey lighten-3">
+    <div class="wrapper">
 
         <div class="center container">
 
-            <div id="user">         
+            <div id="user" class="grey lighten-3">         
                 <div class="user--data"> 
 
-                    <div class="user--data__profilePicture"> 
+                    <div class="user--data__profileInfo"> 
                             <img src="./assets/head-659651_1920.png" class="avatar">
-                            <p id="username">user: <span style="font-weight: 600;">%username%</span></p>
+                            <p>user: <span style="font-weight: 600;" id="username">%username%</span></p>
                     </div>
 
                     <div class="user--data__profileStats"> 
-                        <p id="best-score" style="display: inline-block; margin-bottom: 0.5rem;">Best Score: %score%</p>
+                        <div class="profileStates--container">
+                            <p style="display: inline-block; margin-bottom: 0.5rem;">Best Score: <span id="best-score"  style="font-weight: 600;">%score%</span></p>
+                        </div>
+                        
                     </div> 
                 </div>
                 <div class="user--content"> 
-                    <a id="logout" class="waves-effect waves-light btn btn-large blue lighten-1">LogOut</a> 
+                    <a id="btn-logout" class="waves-effect waves-light btn btn-medium red lighten-1">LogOut</a> 
+                    <h1>Game options</h1>
                 </div>
 
             </div>
 
             <div class="modals">
 
-                <a data-target="modal-login" class="waves-effect waves-light btn btn-large purple darken-1 modal-trigger">LogIn</a>
-                <a data-target="modal-signup" class="waves-effect waves-light btn btn-large red darken-1 modal-trigger">SignUp</a>
-                <!--<a id="logout" class="waves-effect waves-light btn btn-large blue lighten-1">LogOut</a>-->
+                <a data-target="modal-login" class="waves-effect waves-light btn btn-large blue lighten-2 modal-trigger">LogIn</a>
+                <a data-target="modal-signup" class="waves-effect waves-light btn btn-large red lighten-1 modal-trigger">SignUp</a>
 
                 <div id="modal-login" class="modal">
                     <div class="modal-content">
