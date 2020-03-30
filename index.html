@@ -56,10 +56,18 @@
                                 <label class="active" for="password"style="display: inline-block;">Password</label>
                             </div>  
                             <div class="modal-footer">
-                                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Forgot password?</a>
+                                <a data-target="modal-changePass" class="btn-forgotPass modal-close waves-effect waves-green btn-flat modal-trigger">Forgot password?</a>
                                 <button id="btn-login" class="btn btn-large waves-effect waves-light green lighten-1">login</button>   
                             </div>
                         </form>
+                    </div>
+                </div>
+
+                <div id="modal-changePass" class="modal">
+                    <div class="modal-content">
+                        <p>Reset password using your e-mail</p>
+                    <input class="validate" type="email" id="email-forReset" required>
+                    <a class="btn btn-medium waves-effect waves-light green lighten-2" id="btn-submitEmail">Submit</a>
                     </div>
                 </div>
 
@@ -91,7 +99,7 @@
 <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
   integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
@@ -117,7 +125,8 @@
      
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
-    const auth = firebase.auth();   
+    const auth = firebase.auth(); 
+    const database = firebase.database();  
 
 </script>
 <script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>

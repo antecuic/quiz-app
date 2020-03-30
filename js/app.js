@@ -13,6 +13,7 @@ const authController = (function() {
     const loginForm = document.querySelector('#login-form');
     const userTemplate = document.querySelector('#user');
     const modals = document.querySelector('.modals');
+    const btnForgotPass = document.querySelector('#btn-submitEmail');
 
     //user log's in or out
     auth.onAuthStateChanged(async (user) => {
@@ -24,7 +25,6 @@ const authController = (function() {
             userTemplate.style.display = 'flex';
             modals.style.display = 'none';
             document.querySelector('#btn-logout').addEventListener('click', () => auth.signOut());
-
             //users data display
             displayUser(loggedUser)
 
@@ -77,11 +77,27 @@ const authController = (function() {
         auth.createUserWithEmailAndPassword(email, password)
             .then(result => {
                     signupForm.reset();
-                    axios.put(`https://quiz-game-b9909.firebaseio.com/users/${result.user.uid}.json`, newUser)
+                    axios.put(`https://quiz-game-b9909.firebaseio.com/users/${result.user.uid}.json`, newUser);
+                    displayUser(newUser)
                     return result.user.updateProfile({displayName: usrName})
                 })
             .catch(error => alert(error.message))
     });
+
+    btnForgotPass.addEventListener('click', e => {
+        e.preventDefault();
+        let email = document.querySelector('#email-forReset').value;
+
+        auth.sendPasswordResetEmail(email)
+            .then(() => {
+                closeModal();
+                email = '';
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+
+    })
 
     const getUserData = async (uid) => {
         const response = await axios.get(`https://quiz-game-b9909.firebaseio.com/users/${uid}.json`);
@@ -89,7 +105,7 @@ const authController = (function() {
         return user;
     };
 
-    const displayUser = (user) => {
+    const displayUser = async (user) => {
         
         const bestScore = document.querySelector('#best-score');
         const username = document.querySelector('#username');
@@ -105,6 +121,7 @@ const authController = (function() {
             bestScore.innerHTML = '%score%';
             username.innerHTML = '%username%';
         }
+
     };
 
 })();
