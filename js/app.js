@@ -6,25 +6,45 @@
     });
 })();
 
-//AUTHENTIFICATION
-const authController = (function() {
+//*****APP********* 
+(function() {
 
     const signupForm = document.querySelector('#signup-form');
     const loginForm = document.querySelector('#login-form');
     const userTemplate = document.querySelector('#user');
     const modals = document.querySelector('.modals');
     const btnForgotPass = document.querySelector('#btn-submitEmail');
+    const millRadio = document.querySelector('#mill-radio');
+    const quickradio = document.querySelector('#quick-radio');
+    const btnPlay = document.querySelector('#btn-play');
+    const gameMillionaire = document.querySelector('#game--millionaire');
+    const gameQuickOne = document.querySelector('#game--quickOne');
 
-    //user log's in or out
+
+    btnPlay.addEventListener('click', () => {
+
+        if(millRadio.checked) {
+            gameMillionaire.style.display = 'block';
+            userTemplate.style.display = 'none';
+        } else if (quickradio.checked) {
+            gameQuickOne.style.display = 'block';
+            userTemplate.style.display = 'none';
+        } 
+    });
+
+    // user log's in or out
     auth.onAuthStateChanged(async (user) => {
         
         if(user) {
             //get user data from database
 
             const loggedUser = await getUserData(user.uid);
+
+            //dispaly user profile
             userTemplate.style.display = 'flex';
             modals.style.display = 'none';
             document.querySelector('#btn-logout').addEventListener('click', () => auth.signOut());
+
             //users data display
             displayUser(loggedUser)
 
@@ -33,8 +53,7 @@ const authController = (function() {
             modals.style.display = 'block';
             displayUser()
         }        
- 
-    })
+    });
 
     //login
     loginForm.addEventListener('submit', e => {
@@ -67,8 +86,7 @@ const authController = (function() {
 
         const newUser = {
             username: usrName,
-            mail: email,
-            password: password,
+            email: email,
             score: 0
         }
 
@@ -83,6 +101,8 @@ const authController = (function() {
                 })
             .catch(error => alert(error.message))
     });
+
+    //password-reset
 
     btnForgotPass.addEventListener('click', e => {
         e.preventDefault();
@@ -121,7 +141,6 @@ const authController = (function() {
             bestScore.innerHTML = '%score%';
             username.innerHTML = '%username%';
         }
-
     };
 
 })();

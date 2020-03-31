@@ -1,14 +1,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.min.css">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/user.css">
+    <link rel="stylesheet" href="./css/millionaire.css">
+    <link rel="stylesheet" href="./css/quickOne.css">
     
-    <title>Quiz</title>
+    <title>Quiz Me</title>
 </head>
 <body>
 
@@ -16,9 +18,9 @@
 
         <div class="center container">
 
-            <div id="user" class="grey lighten-3">         
-                <div class="user--data"> 
+            <div id="user" class="grey lighten-3"> 
 
+                <div class="user--data"> 
                     <div class="user--data__profileInfo"> 
                             <img src="./assets/head-659651_1920.png" class="avatar">
                             <p>user: <span style="font-weight: 600;" id="username">%username%</span></p>
@@ -27,15 +29,39 @@
                     <div class="user--data__profileStats"> 
                         <div class="profileStates--container">
                             <p style="display: inline-block; margin-bottom: 0.5rem;">Best Score: <span id="best-score"  style="font-weight: 600;">%score%</span></p>
+                            <a id="btn-logout" class="waves-effect waves-light btn red darken-1">LogOut</a>
                         </div>
-                        
                     </div> 
                 </div>
-                <div class="user--content"> 
-                    <a id="btn-logout" class="waves-effect waves-light btn btn-medium red lighten-1">LogOut</a> 
-                    <h1>Game options</h1>
+
+                <div class="user--options">  
+                    <div class="user--options__container">
+                        <dvi class="game--types">
+                            <h4>Choose game type:</h4>
+                            <p id="game--info" style="color: #eee;">Game description for millionaire game</p>
+                            <form>
+                                <div class="inputGroup">                           
+                                    <input id="mill-radio" name="radio" type="radio" checked onclick="checkRadios()"/>
+                                    <label for="mill-radio">Millionaire</label>
+                                </div>
+                                <div class="inputGroup">
+                                    <input id="quick-radio" name="radio" type="radio" onclick="checkRadios()"/>
+                                    <label for="quick-radio">Quick One</label>
+                                </div>
+                            </form>
+                            <button id="btn-play" class="waves-effect waves-light btn blue accent-3">PLAY!</button>
+                        </dvi>
+                    </div>
                 </div>
 
+            </div>
+
+            <div id="game--millionaire">
+                <h1>millionaire game</h1>
+            </div>
+
+            <div id="game--quickOne">
+                <h1>quickone game</h1>
             </div>
 
             <div class="modals">
@@ -99,20 +125,13 @@
 <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
   integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
   crossorigin="anonymous"></script>
 
 <script>
-    function closeModal() {
-            $('.modal').modal('close');
-        };   
-</script>
-
-<script>
-    var firebaseConfig = {
+    const firebaseConfig = {
         apiKey: "AIzaSyD_j0DNn2HswGvsWa2hUQuHAzdCA7Ky9co",
         authDomain: "quiz-game-b9909.firebaseapp.com",
         databaseURL: "https://quiz-game-b9909.firebaseio.com",
@@ -126,7 +145,19 @@
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
     const auth = firebase.auth(); 
-    const database = firebase.database();  
+
+    function closeModal() {
+        $('.modal').modal('close');
+    };  
+
+    function checkRadios() {
+
+        if(document.querySelector('#mill-radio').checked) {
+            document.querySelector('#game--info').innerHTML = 'Game description for millionaire game';
+        } else {
+            document.querySelector('#game--info').innerHTML = 'Game description for quick one game'
+        }
+    };
 
 </script>
 <script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>
