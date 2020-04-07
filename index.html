@@ -49,21 +49,51 @@
                                     <label for="quick-radio">Quick One</label>
                                 </div>
                             </form>
-                            <button id="btn-play" class="waves-effect waves-light btn blue accent-3">PLAY!</button>
+                            <button id="btn--play" class="waves-effect waves-light btn blue accent-3">PLAY!</button>
                         </dvi>
                     </div>
                 </div>
 
             </div>
 
-            <div id="game--millionaire">
-                <h1>millionaire game</h1>
-            </div>
+            <div id="game" style="width: 100%; height: 100%;" class="grey lighten-3">
 
-            <div id="game--quickOne">
-                <h1>quickone game</h1>
-            </div>
+                <div id="game--millionaire">
+                    <div class="game--container">
+                        <div class="millionaire--description">
+                            <div class="progress">
+                                <p>Question 4 / 7</p>
+                                <div class="progress--status"><div></div></div>
+                            </div>
+                            <button id="btn--quitMillionaire" class="waves-effect waves-light btn btn-medium red darken-2">QUIT!</button>
+                        </div>
+                        <div class="millionaire--questions__wrapper">
+                            <h3 class="millionaire--question">Question</h3>
+                            <div class="millionaire--questions__answers">
+                                <div class="mill--answer ans1">
+                                    %Ans1%
+                                </div>
+                                <div class="mill--answer ans2">
+                                    %Ans2%
+                                </div>
+                                <div class="mill--answer ans3">
+                                    %Ans3%
+                                </div>
+                                <div class="mill--answer ans4">
+                                    %Ans3%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div id="game--quickOne">
+                    <h1>quickone game</h1>
+                    <button id="btn--quitQuickOne" class="waves-effect waves-light btn btn-medium red darken-2">QUIT!</button>
 
+                </div>
+            </div>
+            
             <div class="modals">
 
                 <a data-target="modal-login" class="waves-effect waves-light btn btn-large blue lighten-2 modal-trigger">LogIn</a>

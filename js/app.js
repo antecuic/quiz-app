@@ -16,21 +16,51 @@
     const btnForgotPass = document.querySelector('#btn-submitEmail');
     const millRadio = document.querySelector('#mill-radio');
     const quickradio = document.querySelector('#quick-radio');
-    const btnPlay = document.querySelector('#btn-play');
+    const btnPlay = document.querySelector('#btn--play');
+    const btnQuitMill = document.querySelector('#btn--quitMillionaire');
+    const btnQuitQuickOne = document.querySelector('#btn--quitQuickOne');
     const gameMillionaire = document.querySelector('#game--millionaire');
     const gameQuickOne = document.querySelector('#game--quickOne');
+    const gameContainer = document.querySelector('#game');
 
+    const quitGame = () => {
 
-    btnPlay.addEventListener('click', () => {
+        gameContainer.style.display = 'none';
 
-        if(millRadio.checked) {
-            gameMillionaire.style.display = 'block';
-            userTemplate.style.display = 'none';
-        } else if (quickradio.checked) {
-            gameQuickOne.style.display = 'block';
-            userTemplate.style.display = 'none';
-        } 
-    });
+        gameMillionaire.style.display == 'flex' ? gameMillionaire.style.display = 'none' : gameQuickOne.style.display = 'none';
+
+        userTemplate.style.display = 'flex';
+       
+    }
+
+    btnQuitQuickOne.addEventListener('click', quitGame)
+    btnQuitMill.addEventListener('click', quitGame)
+   
+
+    const getUserData = async (uid) => {
+        const response = await axios.get(`https://quiz-game-b9909.firebaseio.com/users/${uid}.json`);
+        const user = { ...response.data };
+        return user;
+    };
+
+    const displayUser = async (user) => {
+        
+        const bestScore = document.querySelector('#best-score');
+        const username = document.querySelector('#username');
+
+        if (user) {
+            //display stats
+            bestScore.innerHTML = user.score === 0 ? bestScore.innerHTML.replace('%score%', 'Stats are empty') : bestScore.innerHTML.replace('%score%', user.score);
+        
+            //display username
+            username.innerHTML = username.innerHTML.replace('%username%', user.username);
+        } else {
+
+            bestScore.innerHTML = '%score%';
+            username.innerHTML = '%username%';
+        }
+    };
+
 
     // user log's in or out
     auth.onAuthStateChanged(async (user) => {
@@ -116,31 +146,102 @@
             .catch(error => {
                 alert(error.message);
             });
-
     })
 
-    const getUserData = async (uid) => {
-        const response = await axios.get(`https://quiz-game-b9909.firebaseio.com/users/${uid}.json`);
-        const user = { ...response.data };
-        return user;
-    };
+    const getQuestionsFromAPI = async () => {
+        const response = await axios.get('https://opentdb.com/api.php?amount=10&type=multiple');
+        const questions = { ...response.data.results }
+        return questions;
+    }
 
-    const displayUser = async (user) => {
-        
-        const bestScore = document.querySelector('#best-score');
-        const username = document.querySelector('#username');
+    //changes the order of answers randomly in an array
+    const shuffle = (array) => {
+        array.sort(() => Math.random() - 0.5);
+    }
 
-        if (user) {
-            //display stats
-            bestScore.innerHTML = user.score === 0 ? bestScore.innerHTML.replace('%score%', 'Stats are empty') : bestScore.innerHTML.replace('%score%', user.score);
-        
-            //display username
-            username.innerHTML = username.innerHTML.replace('%username%', user.username);
-        } else {
+    const setUI = (answers, question) => {
+        const answerFields = [document.querySelector('.ans1'), document.querySelector('.ans2'), document.querySelector('.ans3'), document.querySelector('.ans4')];
+        const questionField = document.querySelector('.millionaire--question');
+        questionField.innerHTML = '';
+        questionField.innerHTML = question;
 
-            bestScore.innerHTML = '%score%';
-            username.innerHTML = '%username%';
+        for (let i = 0; i < answerFields.length; i++) {
+            answerFields[i].innerHTML = answers[i];
         }
     };
+
+    const setQuestions = (questionsArray, questionCounter) => {
+
+            const question = questionsArray[questionCounter].question;
+            const correctAnswer = questionsArray[questionCounter].correct_answer;
+            let incorrectAnswers = [];
+            questionsArray[questionCounter].incorrect_answers.forEach(el => {
+                if(incorrectAnswers.length < 3) {
+                    incorrectAnswers.push(el);
+                };
+            });
+
+            let answers = [...incorrectAnswers, correctAnswer];
+        
+            shuffle(answers);
+            setUI(answers, question);
+    }
+
+    const startMillionaireGame = async (questions) => {
+        const answerContainers = document.getElementsByClassName('mill--answer');
+        let gameOver = false;
+        let questionsArray = [];
+        let questionCounter = 0;
+        Object.values(questions).forEach(el => {
+            questionsArray.push(el)
+        });
+
+       setQuestions(questionsArray, questionCounter)
+
+        Array.from(answerContainers).forEach(el => {
+            el.addEventListener('click', event => {
+                const userAnswer = event.target.innerHTML;
+                const correctAnswer = questionsArray[questionCounter].correct_answer;
+                console.log('correct answer ==> ' + correctAnswer)
+
+                if(userAnswer === correctAnswer) {
+                    console.log('correct')
+                } else {
+                    console.log('incorrect')
+                }            
+
+                questionCounter++;
+                if (questionCounter < questionsArray.length) {
+                    console.log(questionsArray.length)
+                    console.log(questionCounter)
+                    setQuestions(questionsArray, questionCounter);
+                } else {
+                    console.log('game over')
+                    gameOver = true;
+                }
+            })
+
+        })
+    };
+
+    btnPlay.addEventListener('click', async () => {
+
+        gameContainer.style.display = 'block';
+
+        if(millRadio.checked) {
+            userTemplate.style.display = 'none';
+            //get questions and start game
+            const questions = await getQuestionsFromAPI();
+            console.log(questions)
+            startMillionaireGame(questions);
+
+            
+            gameMillionaire.style.display = 'flex';
+
+        } else if (quickradio.checked) {
+            gameQuickOne.style.display = 'flex';
+            userTemplate.style.display = 'none';
+        } 
+    });
 
 })();
