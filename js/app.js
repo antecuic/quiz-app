@@ -33,7 +33,7 @@
         //sets answers on UI
         for (let i = 0; i < answerFields.length; i++) {
             answerFields[i].innerHTML = answers[i]; 
-        }
+        };
     };
 
     const setQuestion = (questions, questionCounter) => {
@@ -52,12 +52,13 @@
     
         shuffle(answers);
         setUI(answers, question);
-        console.log('correct answer ==>>' + correctAnswer)
 
+        console.log('correct answer ==>>' + correctAnswer)
+        document.querySelector('.category').innerHTML = `Category: "${questions[questionCounter].category}"`;
+        document.querySelector('.difficulty').innerHTML = `Difficulty: "${questions[questionCounter].difficulty}"`;
         document.querySelector('.progress--statusText').innerHTML = `Question ${questionCounter+ 1} / ${questions.length}`
         statusBar.style.width = `${(questionCounter+1) * 10}%`;
         
-
     };
 
     const displayThemeGame = (user) => {
@@ -79,20 +80,25 @@
 
     const startThemeGame = (user) => {
         const btnPlay = document.querySelector('#btn--play');
+        let correctAnswersCounter = 0;
         let questions = [];
         let questionCounter = 0;
 
         btnPlay.addEventListener('click', async () => {
 
             const category = document.querySelector('#gamecategory').value - 1;
+            const difficulty = document.querySelector('#difficulty').value;
 
-            if (category < 9) {
+            if (category < 9 && difficulty === 'Any Difficulty') {
                 const response = await axios.get(`https://opentdb.com/api.php?amount=10&type=multiple`);
-                questions =  [ ...response.data.results ] 
-            } else {
-                const response = await axios.get(`https://opentdb.com/api.php?amount=10&category=${category}&type=multiple`);
-                questions = [ ...response.data.results ]
-            };
+                questions = [ ...response.data.results ];
+            } else if (category < 9) {
+                const response = await axios.get(`https://opentdb.com/api.php?amount=10&difficulty=${difficulty}&type=multiple`);
+                questions = [ ...response.data.results ];
+            } else{
+                const response = await axios.get(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`);
+                questions = [ ...response.data.results ];
+            }
             
             displayThemeGame(user);
             setQuestion(questions, questionCounter);
@@ -100,17 +106,21 @@
 
             Array.from(answerContainers).forEach(el => {
 
-                el.addEventListener('click', event => {
+                el.addEventListener('click', async (event) => {
 
                     const userAnswer = event.target;                    
-                    const correctAnswer = questions[questionCounter].correct_answer;
-                    const correctAnswerContainer = checkCorrectAnswerContainer(correctAnswer);
+                    const correctAnswer = await questions[questionCounter].correct_answer;
+                    let correctAnswerContainer = checkCorrectAnswerContainer(correctAnswer);
 
-                    if(userAnswer.innerHTML !== correctAnswer) {
+                    if (userAnswer.innerHTML !== correctAnswer) {
                         userAnswer.classList.add('incorrect');
-                    }    
+                    } else {
+                        correctAnswersCounter++;
+                        document.querySelector('.correct--answers__display').style.height = `${correctAnswersCounter * 10}%`
+                    }
 
-                    correctAnswerContainer.classList.toggle('correct')
+
+                    correctAnswerContainer.classList.toggle('correct');
 
                     setTimeout(() => {
                         questionCounter++;
@@ -120,12 +130,14 @@
 
                         } else {
 
-                            render(userProfileTemplate, '.container', user);
+                            setTimeout(() => {
+                                render(userProfileTemplate, '.container', user);
+                            }, 500)
                         };
 
                         correctAnswerContainer.classList.toggle('correct')
                         userAnswer.classList.contains('incorrect') ? userAnswer.classList.remove('incorrect') : null;
-                    }, 500)
+                    }, 1000)
                 });
                 
             });
@@ -173,7 +185,7 @@
             }
         
             auth.signInWithEmailAndPassword(email, password)
-                .then(loginForm.reset())
+                //.then(loginForm.reset())
                 .catch(error => alert(error.message));
         });
 

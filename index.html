@@ -212,15 +212,14 @@
     };  
 
     function checkRadios() {
-
+        const selectWrappers = Array.from(document.querySelectorAll('.select-wrapper'))
         if(document.querySelector('#gameTheme-radio').checked) {
-            document.querySelector('#game--info').innerHTML = 'Game description for millionaire game';
-            document.querySelector('.gamecategory--label').style.display = 'block';
-            document.querySelector('.select-wrapper').style.display = 'block';
+            document.querySelector('#game--info').innerHTML = 'Game description for category game';
+            selectWrappers.forEach(el => el.style.display = 'block');
         } else {
             document.querySelector('#game--info').innerHTML = 'Game description for quick one game'
-            document.querySelector('.gamecategory--label').style.display = 'none';
-            document.querySelector('.select-wrapper').style.display = 'none';
+            selectWrappers.forEach(el => el.style.display = 'none');
+
         }
     };
 

@@ -20,17 +20,16 @@ const userProfileTemplate = (
                     '<div class="user--options__container">'+
                         '<div class="game--types">'+
                            ' <h4>Choose game type:</h4>'+
-                           ' <p id="game--info" style="color: #eee;">Game description for category game game</p>'+
+                           ' <p id="game--info" style="color: #eee;">Game description for category game</p>'+
                             '<form>'+
                                 '<div class="inputGroup">'+                           
                                    ' <input id="gameTheme-radio" name="radio" type="radio" checked onclick="checkRadios()"/>'+
                                     '<label for="gameTheme-radio">Multiple category game quiz</label>'+
                                ' </div>'+
-                               '<label for="gamecategory" class="gamecategory--label">Choose a category:</label>'+
                                     '<select id="gamecategory">'+
                                    ' <option value = "9" selected>Any Category</option>'+
                                     '<option value = "10">General Knowledge</option>'+
-                                    '<option value = "11">EntertainmentBooks</option>'+
+                                    '<option value = "11">Entertainment: Books</option>'+
                                     '<option value = "12">Entertainment: Film</option>'+
                                     '<option value = "13">Entertainment: Music</option>'+
                                     '<option value = "14">Entertainment: Musicals & Theatres</option>'+
@@ -53,6 +52,12 @@ const userProfileTemplate = (
                                     '<option value = "31">Entertainment: Japanese Anime & Manga</option>'+
                                     '<option value = "32">Entertainment: Cartoon & Animations</option>'+
                                     '</select>'+
+                                   ' <select id="difficulty">'+
+                                       ' <option value = "">Any Difficulty</option>'+
+                                        '<option value = "easy">Easy</option>'+
+                                       ' <option value = "medium">Medium</option>'+
+                                        '<option value = "hard">Hard</option>'+
+                                   ' </select>'+
                                 '<div class="inputGroup">'+
                                     '<input id="quick-radio" name="radio" type="radio" onclick="checkRadios()"/>'+
                                     '<label for="quick-radio">Quick One</label>'+
@@ -128,7 +133,10 @@ const themeGame = (
 
     '<div id="themeGame"  class="grey lighten-3">'+
                     '<div class="game--container">'+
+                    '<div class="correct--answers__display"></div>'+
                         '<div class="themeGame--description">'+
+                        '<p class="category"></p>'+
+                        '<p class="difficulty"></p>'+
                             '<div class="progress">'+
                                 '<p class="progress--statusText">Question %numOfCurrentQuestion% / %totalQuestionsNum%</p>'+
                                 '<div class="progress--statusBar"><div class="progress--statusBarDiv"></div></div>'+
