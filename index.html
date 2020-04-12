@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.min.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/user.css">
-    <link rel="stylesheet" href="./css/millionaire.css">
+    <link rel="stylesheet" href="./css/themeGame.css">
     <link rel="stylesheet" href="./css/quickOne.css">
     
     <title>Quiz Me</title>
@@ -18,7 +18,9 @@
 
         <div class="center container">
 
-            <div id="user" class="grey lighten-3"> 
+            <!--<div class="lds-ring"><div></div><div></div><div></div><div></div></div>-->
+
+            <!-- <div id="user" class="grey lighten-3"> 
 
                 <div class="user--data"> 
                     <div class="user--data__profileInfo"> 
@@ -44,6 +46,34 @@
                                     <input id="mill-radio" name="radio" type="radio" checked onclick="checkRadios()"/>
                                     <label for="mill-radio">Millionaire</label>
                                 </div>
+                                <label for="gamecategory">Choose a category:</label>
+
+                                    <select id="gamecategory">
+                                    <option value = "anyCategory" selected>Any Category</option>
+                                    <option value = "generalKnowledge">General Knowledge</option>
+                                    <option value = "entertainmentBooks">EntertainmentBooks</option>
+                                    <option value = "entertainmentFilm">Entertainment: Film</option>
+                                    <option value = "entertainmentMusic">Entertainment: Music</option>
+                                    <option value = "entertainmentMusicals&Theatres">Entertainment: Musicals & Theatres</option>
+                                    <option value = "entertainmentTelevision">Entertainment: Television</option>
+                                    <option value = "entertainmentVideoGames">Entertainment: Video Games</option>
+                                    <option value = "entertainmentBoardGames">Entertainment: Board Games</option>
+                                    <option value = "scienceAndNature">Science and Nature</option>
+                                    <option value = "scienceComputers">Science Computers</option>
+                                    <option value = "scienceMathematics">Science Mathematics</option>
+                                    <option value = "mythologoy">Mythology</option>
+                                    <option value = "sports">Sports</option>
+                                    <option value = "geography">Geography</option>
+                                    <option value = "history">History</option>
+                                    <option value = "politics">Politics</option>
+                                    <option value = "art">Art</option>
+                                    <option value = "celebrities">Celebrities</option>
+                                    <option value = "animals">Animals</option>
+                                    <option value = "vehicles">Vehicles</option>
+                                    <option value = "entertainmentComics">Entertainment: Comics</option>
+                                    <option value = "entertainmentJapaneseAnime&Manga">Entertainment: Japanese Anime & Manga</option>
+                                    <option value = "entertainmentCartoon&Animations">Entertainment: Cartoon & Animations</option>
+                                    </select>
                                 <div class="inputGroup">
                                     <input id="quick-radio" name="radio" type="radio" onclick="checkRadios()"/>
                                     <label for="quick-radio">Quick One</label>
@@ -54,16 +84,16 @@
                     </div>
                 </div>
 
-            </div>
+            </div> -->
 
-            <div id="game" style="width: 100%; height: 100%;" class="grey lighten-3">
+            
 
-                <div id="game--millionaire">
+                <!-- <div id="game--millionaire"  class="grey lighten-3">
                     <div class="game--container">
                         <div class="millionaire--description">
                             <div class="progress">
-                                <p>Question 4 / 7</p>
-                                <div class="progress--status"><div></div></div>
+                                <p class="progress--statusText">Question %numOfCurrentQuestion% / %totalQuestionsNum%</p>
+                                <div class="progress--statusBar"><div class="progress--statusBarDiv"></div></div>
                             </div>
                             <button id="btn--quitMillionaire" class="waves-effect waves-light btn btn-medium red darken-2">QUIT!</button>
                         </div>
@@ -85,16 +115,16 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
     
-                <div id="game--quickOne">
+                <!-- <div id="game--quickOne">
                     <h1>quickone game</h1>
                     <button id="btn--quitQuickOne" class="waves-effect waves-light btn btn-medium red darken-2">QUIT!</button>
 
                 </div>
-            </div>
+             -->
             
-            <div class="modals">
+            <!-- <div class="modals">
 
                 <a data-target="modal-login" class="waves-effect waves-light btn btn-large blue lighten-2 modal-trigger">LogIn</a>
                 <a data-target="modal-signup" class="waves-effect waves-light btn btn-large red lighten-1 modal-trigger">SignUp</a>
@@ -147,7 +177,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
         </div>
     </div>
@@ -155,6 +185,7 @@
 <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
+<script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
   integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
@@ -182,16 +213,20 @@
 
     function checkRadios() {
 
-        if(document.querySelector('#mill-radio').checked) {
+        if(document.querySelector('#gameTheme-radio').checked) {
             document.querySelector('#game--info').innerHTML = 'Game description for millionaire game';
+            document.querySelector('.gamecategory--label').style.display = 'block';
+            document.querySelector('.select-wrapper').style.display = 'block';
         } else {
             document.querySelector('#game--info').innerHTML = 'Game description for quick one game'
+            document.querySelector('.gamecategory--label').style.display = 'none';
+            document.querySelector('.select-wrapper').style.display = 'none';
         }
     };
 
 </script>
-<script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>
 <script src="./node_modules/axios/dist/axios.js"></script>
+<script src="./js/templates.js"></script>
 <script src="./js/app.js"></script>
 
 </body>

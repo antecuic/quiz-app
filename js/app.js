@@ -1,46 +1,137 @@
-//MATERIALIZE-CSS INIT
-(function() {
-    document.addEventListener('DOMContentLoaded', function() {
-        const elems = document.querySelectorAll('.modal');
-        const instances = M.Modal.init(elems);
+//*****APP*********
+(function(){
+ 
+    window.addEventListener('load', () => {
+        render(loader, '.container')
     });
-})();
 
-//*****APP********* 
-(function() {
-
-    const signupForm = document.querySelector('#signup-form');
-    const loginForm = document.querySelector('#login-form');
-    const userTemplate = document.querySelector('#user');
-    const modals = document.querySelector('.modals');
-    const btnForgotPass = document.querySelector('#btn-submitEmail');
-    const millRadio = document.querySelector('#mill-radio');
-    const quickradio = document.querySelector('#quick-radio');
-    const btnPlay = document.querySelector('#btn--play');
-    const btnQuitMill = document.querySelector('#btn--quitMillionaire');
-    const btnQuitQuickOne = document.querySelector('#btn--quitQuickOne');
-    const gameMillionaire = document.querySelector('#game--millionaire');
-    const gameQuickOne = document.querySelector('#game--quickOne');
-    const gameContainer = document.querySelector('#game');
-
-    const quitGame = () => {
-
-        gameContainer.style.display = 'none';
-
-        gameMillionaire.style.display == 'flex' ? gameMillionaire.style.display = 'none' : gameQuickOne.style.display = 'none';
-
-        userTemplate.style.display = 'flex';
-       
-    }
-
-    btnQuitQuickOne.addEventListener('click', quitGame)
-    btnQuitMill.addEventListener('click', quitGame)
-   
-
+    const render = (template, selector, user) => {
+        if (!selector) {return};
+        const node = document.querySelector(selector);
+        node.innerHTML = template;
+        user ? showUserProfile(user) : null;
+        M.AutoInit();
+    };
+    
     const getUserData = async (uid) => {
         const response = await axios.get(`https://quiz-game-b9909.firebaseio.com/users/${uid}.json`);
         const user = { ...response.data };
         return user;
+    };
+
+    //changes the order of answers randomly in an array
+    const shuffle = (array) => {
+        array.sort(() => Math.random() - 0.5);
+    };
+
+    const setUI = (answers, question) => {
+        const answerFields = [document.querySelector('.ans1'), document.querySelector('.ans2'), document.querySelector('.ans3'), document.querySelector('.ans4')];
+        const questionField = document.querySelector('.themeGame--question');
+
+        questionField.innerHTML = question;
+
+        //sets answers on UI
+        for (let i = 0; i < answerFields.length; i++) {
+            answerFields[i].innerHTML = answers[i]; 
+        }
+    };
+
+    const setQuestion = (questions, questionCounter) => {
+        const statusBar = document.querySelector('.progress--statusBarDiv');
+        const question = questions[questionCounter].question;
+        const correctAnswer = questions[questionCounter].correct_answer;
+        let incorrectAnswers = [];
+
+        questions[questionCounter].incorrect_answers.forEach(el => {
+            if(incorrectAnswers.length < 3) {
+                incorrectAnswers.push(el);
+            };
+        });
+
+        let answers = [...incorrectAnswers, correctAnswer];
+    
+        shuffle(answers);
+        setUI(answers, question);
+        console.log('correct answer ==>>' + correctAnswer)
+
+        document.querySelector('.progress--statusText').innerHTML = `Question ${questionCounter+ 1} / ${questions.length}`
+        statusBar.style.width = `${(questionCounter+1) * 10}%`;
+        
+
+    };
+
+    const displayThemeGame = (user) => {
+        render(themeGame, '.container');
+        document.querySelector('#btn--quitThemeGame').addEventListener('click', () => render(userProfileTemplate, '.container', user))
+    };
+
+    const checkCorrectAnswerContainer = (correctAnswer) => {
+        const answerFields = [document.querySelector('.ans1'), document.querySelector('.ans2'), document.querySelector('.ans3'), document.querySelector('.ans4')];
+
+        for (let i = 0; i < answerFields.length; i++) {
+
+            if (answerFields[i].innerHTML === correctAnswer) {
+                return answerFields[i];
+            };
+           
+        };
+    };
+
+    const startThemeGame = (user) => {
+        const btnPlay = document.querySelector('#btn--play');
+        let questions = [];
+        let questionCounter = 0;
+
+        btnPlay.addEventListener('click', async () => {
+
+            const category = document.querySelector('#gamecategory').value - 1;
+
+            if (category < 9) {
+                const response = await axios.get(`https://opentdb.com/api.php?amount=10&type=multiple`);
+                questions =  [ ...response.data.results ] 
+            } else {
+                const response = await axios.get(`https://opentdb.com/api.php?amount=10&category=${category}&type=multiple`);
+                questions = [ ...response.data.results ]
+            };
+            
+            displayThemeGame(user);
+            setQuestion(questions, questionCounter);
+            let answerContainers = document.getElementsByClassName('question--answer');
+
+            Array.from(answerContainers).forEach(el => {
+
+                el.addEventListener('click', event => {
+
+                    const userAnswer = event.target;                    
+                    const correctAnswer = questions[questionCounter].correct_answer;
+                    const correctAnswerContainer = checkCorrectAnswerContainer(correctAnswer);
+
+                    if(userAnswer.innerHTML !== correctAnswer) {
+                        userAnswer.classList.add('incorrect');
+                    }    
+
+                    correctAnswerContainer.classList.toggle('correct')
+
+                    setTimeout(() => {
+                        questionCounter++;
+                        if (questionCounter < questions.length) {
+                            
+                            setQuestion(questions, questionCounter);
+
+                        } else {
+
+                            render(userProfileTemplate, '.container', user);
+                        };
+
+                        correctAnswerContainer.classList.toggle('correct')
+                        userAnswer.classList.contains('incorrect') ? userAnswer.classList.remove('incorrect') : null;
+                    }, 500)
+                });
+                
+            });
+
+        });
+        
     };
 
     const displayUser = async (user) => {
@@ -50,198 +141,101 @@
 
         if (user) {
             //display stats
-            bestScore.innerHTML = user.score === 0 ? bestScore.innerHTML.replace('%score%', 'Stats are empty') : bestScore.innerHTML.replace('%score%', user.score);
+            user.score === 0 ? bestScore.innerHTML = `Stats are empty :(` : bestScore.innerHTML = `${user.score}`;
         
             //display username
-            username.innerHTML = username.innerHTML.replace('%username%', user.username);
-        } else {
-
-            bestScore.innerHTML = '%score%';
-            username.innerHTML = '%username%';
-        }
+            username.innerHTML = `${user.username}`
+        } 
     };
 
+    const showUserProfile =  async (user) => {
+        render(userProfileTemplate, '.container');
+        displayUser(user);
+        document.querySelector('#btn-logout').addEventListener('click', () => auth.signOut());
+
+        //on play button click get questions
+        startThemeGame(user);
+        
+    };
+
+    const addAuthFunctionalitiy = () => {   
+        //login
+        const loginForm = document.querySelector('#login-Form');
+        const signupForm = document.querySelector('#signup-form');
+
+        loginForm.addEventListener('submit', e => {
+            e.preventDefault()
+            const email = loginForm['emailLogin'].value;
+            const password = loginForm['passwordLogin'].value;
+    
+            if (email === '' || password === '') {
+                return;
+            }
+        
+            auth.signInWithEmailAndPassword(email, password)
+                .then(loginForm.reset())
+                .catch(error => alert(error.message));
+        });
+
+        //signup
+        signupForm.addEventListener('submit', e => {
+            e.preventDefault()
+            const usrName = signupForm['usernameSignup'].value;
+            const email = signupForm['emailSignup'].value;
+            const password = signupForm['passwordSignup'].value;    
+
+            if((usrName === '') || (email === '') || (password === '')) {
+                return;
+            }
+
+            const newUser = {
+                username: usrName,
+                email: email,
+                score: 0
+            }
+
+            auth.createUserWithEmailAndPassword(email, password)
+            .then(result => {
+                        signupForm.reset();
+                        axios.put(`https://quiz-game-b9909.firebaseio.com/users/${result.user.uid}.json`, newUser);
+                        return result.user.updateProfile({displayName: usrName})
+                    })
+                .catch(error => alert(error.message));
+                    
+           showUserProfile(newUser);
+        });
+
+        //password-reset
+        document.querySelector('#btn-submitEmail').addEventListener('click', e => {
+            e.preventDefault();
+            let email = document.querySelector('#email-forReset').value;
+
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    email = '';
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        })
+    }
 
     // user log's in or out
     auth.onAuthStateChanged(async (user) => {
         
         if(user) {
             //get user data from database
+            const loggedUser = await getUserData(user.uid); 
 
-            const loggedUser = await getUserData(user.uid);
-
-            //dispaly user profile
-            userTemplate.style.display = 'flex';
-            modals.style.display = 'none';
-            document.querySelector('#btn-logout').addEventListener('click', () => auth.signOut());
-
-            //users data display
-            displayUser(loggedUser)
-
+            //users data and profile display
+            if( Object.keys(loggedUser).length !== 0) {
+                showUserProfile(loggedUser);
+            }
+           
         } else {
-            userTemplate.style.display = 'none';
-            modals.style.display = 'block';
-            displayUser()
-        }        
-    });
-
-    //login
-    loginForm.addEventListener('submit', e => {
-        e.preventDefault()
-        const email = loginForm['emailLogin'].value;
-        const password = loginForm['passwordLogin'].value;
-
-        if (email === '' || password === '') {
-            return;
+            render(modals,'.container');
+            document.querySelector('.container').contains(document.querySelector('.modals')) ? addAuthFunctionalitiy() : null;
         }
+    }); 
 
-        closeModal();
-
-        auth.signInWithEmailAndPassword(email, password)
-            .then(loginForm.reset())
-            .catch(error => alert(error.message));
-    });
-
-    //signup
-    signupForm.addEventListener('submit', e => {
-
-        e.preventDefault()
-        const usrName = signupForm['usernameSignup'].value;
-        const email = signupForm['emailSignup'].value;
-        const password = signupForm['passwordSignup'].value;    
-
-        if((usrName === '') || (email === '') || (password === '')) {
-            return;
-        }
-
-        const newUser = {
-            username: usrName,
-            email: email,
-            score: 0
-        }
-
-        closeModal();
-
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(result => {
-                    signupForm.reset();
-                    axios.put(`https://quiz-game-b9909.firebaseio.com/users/${result.user.uid}.json`, newUser);
-                    displayUser(newUser)
-                    return result.user.updateProfile({displayName: usrName})
-                })
-            .catch(error => alert(error.message))
-    });
-
-    //password-reset
-
-    btnForgotPass.addEventListener('click', e => {
-        e.preventDefault();
-        let email = document.querySelector('#email-forReset').value;
-
-        auth.sendPasswordResetEmail(email)
-            .then(() => {
-                closeModal();
-                email = '';
-            })
-            .catch(error => {
-                alert(error.message);
-            });
-    })
-
-    const getQuestionsFromAPI = async () => {
-        const response = await axios.get('https://opentdb.com/api.php?amount=10&type=multiple');
-        const questions = { ...response.data.results }
-        return questions;
-    }
-
-    //changes the order of answers randomly in an array
-    const shuffle = (array) => {
-        array.sort(() => Math.random() - 0.5);
-    }
-
-    const setUI = (answers, question) => {
-        const answerFields = [document.querySelector('.ans1'), document.querySelector('.ans2'), document.querySelector('.ans3'), document.querySelector('.ans4')];
-        const questionField = document.querySelector('.millionaire--question');
-        questionField.innerHTML = '';
-        questionField.innerHTML = question;
-
-        for (let i = 0; i < answerFields.length; i++) {
-            answerFields[i].innerHTML = answers[i];
-        }
-    };
-
-    const setQuestions = (questionsArray, questionCounter) => {
-
-            const question = questionsArray[questionCounter].question;
-            const correctAnswer = questionsArray[questionCounter].correct_answer;
-            let incorrectAnswers = [];
-            questionsArray[questionCounter].incorrect_answers.forEach(el => {
-                if(incorrectAnswers.length < 3) {
-                    incorrectAnswers.push(el);
-                };
-            });
-
-            let answers = [...incorrectAnswers, correctAnswer];
-        
-            shuffle(answers);
-            setUI(answers, question);
-    }
-
-    const startMillionaireGame = async (questions) => {
-        const answerContainers = document.getElementsByClassName('mill--answer');
-        let gameOver = false;
-        let questionsArray = [];
-        let questionCounter = 0;
-        Object.values(questions).forEach(el => {
-            questionsArray.push(el)
-        });
-
-       setQuestions(questionsArray, questionCounter)
-
-        Array.from(answerContainers).forEach(el => {
-            el.addEventListener('click', event => {
-                const userAnswer = event.target.innerHTML;
-                const correctAnswer = questionsArray[questionCounter].correct_answer;
-                console.log('correct answer ==> ' + correctAnswer)
-
-                if(userAnswer === correctAnswer) {
-                    console.log('correct')
-                } else {
-                    console.log('incorrect')
-                }            
-
-                questionCounter++;
-                if (questionCounter < questionsArray.length) {
-                    console.log(questionsArray.length)
-                    console.log(questionCounter)
-                    setQuestions(questionsArray, questionCounter);
-                } else {
-                    console.log('game over')
-                    gameOver = true;
-                }
-            })
-
-        })
-    };
-
-    btnPlay.addEventListener('click', async () => {
-
-        gameContainer.style.display = 'block';
-
-        if(millRadio.checked) {
-            userTemplate.style.display = 'none';
-            //get questions and start game
-            const questions = await getQuestionsFromAPI();
-            console.log(questions)
-            startMillionaireGame(questions);
-
-            
-            gameMillionaire.style.display = 'flex';
-
-        } else if (quickradio.checked) {
-            gameQuickOne.style.display = 'flex';
-            userTemplate.style.display = 'none';
-        } 
-    });
-
-})();
+}()); 

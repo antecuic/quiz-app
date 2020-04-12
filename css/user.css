@@ -1,7 +1,7 @@
 #user {
     width: 100%;
     height: 100vh;
-    display: none;
+    display: flex;
     border-right: 1px solid grey;
     font-family: 'Montserrat', sans-serif;
 }
@@ -111,7 +111,7 @@
     width: 85%;
     margin: 50px auto;
     font-weight: 600;
-    line-height: 36px;   
+    line-height: 36px; 
 }
 
 .inputGroup {
@@ -197,4 +197,10 @@
     transform: translateY(-50%);
     cursor: pointer;
     visibility: hidden;     
+}
+
+.gamecategory--label, 
+.select-dropdown {
+    font-size: 1.2rem;
+    color: #fff;
 }

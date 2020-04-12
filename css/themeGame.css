@@ -1,6 +1,5 @@
-#game--millionaire {
+#themeGame {
     width: 100%;
-    display: none;
     height: 100vh;
 }
 
@@ -14,7 +13,7 @@
     height: 100%;
 }
 
-.millionaire--description {
+.themeGame--description {
     position: relative;
     width: 100%;
     height: 30%;
@@ -52,7 +51,7 @@
 
 }
 
-.millionaire--questions__wrapper {
+.themeGame--questions__wrapper {
     width: 100%;
     height: 100%;
     display: flex;
@@ -61,7 +60,7 @@
     flex-flow: column;
 }
 
-.millionaire--questions__answers {
+.themeGame--questions__answers {
     width: 50%;
     height: 60%;
     display: grid;
@@ -74,7 +73,7 @@
     margin: 0 auto;  
 }
 
-.mill--answer {
+.question--answer {
     height: 100%;
     border-radius: 5px;
     display: flex;
@@ -85,7 +84,7 @@
     font-size: 1.6rem;
 }
 
-.mill--answer:hover {
+.question--answer:hover {
     transform: scale(1.04);
 
 }
@@ -103,7 +102,7 @@
     grid-area: ans4;
 }
 
-#btn--quitMillionaire {
+#btn--quitThemeGame {
     position: absolute;
     right: 1rem;
     top: 1rem;
