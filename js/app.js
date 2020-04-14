@@ -1,9 +1,5 @@
 //*****APP*********
 (function(){
- 
-    window.addEventListener('load', () => {
-        render(loader, '.container')
-    });
 
     const render = (template, selector, user) => {
         if (!selector) {return};
@@ -13,6 +9,12 @@
         M.AutoInit();
     };
     
+    render(loader, '.container')
+
+    window.addEventListener('load', () => {
+        render(modals, '.container')
+    });
+
     const getUserData = async (uid) => {
         const response = await axios.get(`https://quiz-game-b9909.firebaseio.com/users/${uid}.json`);
         const user = { ...response.data };
