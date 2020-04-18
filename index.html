@@ -18,7 +18,7 @@
 
         <div class="center container">
 
-            <!--<div class="lds-ring"><div></div><div></div><div></div><div></div></div>-->
+            <!-- <div class="lds-ring"><div></div><div></div><div></div><div></div></div> -->
 
             <!-- <div id="user" class="grey lighten-3"> 
 
@@ -205,13 +205,21 @@
      
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
-    const auth = firebase.auth(); 
+    const auth = firebase.auth();   
 
-    function closeModal() {
-        $('.modal').modal('close');
-    };  
+    openModal = (id) => {
+        const elem = document.getElementById(id);
+        const instance = M.Modal.init(elem, {dismissible: false});
+        instance.open();
+    };
 
-    function checkRadios() {
+    closeModal = (id) => {
+        const elem = document.getElementById(id);
+        const instance = M.Modal.init(elem, {dismissible: false});
+        instance.close();
+    };
+
+    checkRadios = () => {
         const selectWrappers = Array.from(document.querySelectorAll('.select-wrapper'))
         if(document.querySelector('#gameTheme-radio').checked) {
             document.querySelector('#game--info').innerHTML = 'Game description for category game';

@@ -24,6 +24,7 @@ p, span {
     align-items: center;
     justify-content: center;
     flex-flow: row;
+    z-index: 1;
 }
 
 .modals > .btn {

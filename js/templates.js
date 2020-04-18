@@ -5,7 +5,7 @@ const userProfileTemplate = (
                 '<div class="user--data">' +
                     '<div class="user--data__profileInfo">'+ 
                             '<img src="./assets/head-659651_1920.png" class="avatar">'+
-                            '<p>user: <span style="font-weight: 600;" id="username">%username%</span></p>'+
+                            '<p class="username--container">user: <span style="font-weight: 600;" id="username">%username%</span></p>'+
                    '</div>'+
 
                    ' <div class="user--data__profileStats">'+ 
@@ -52,12 +52,10 @@ const userProfileTemplate = (
                                     '<option value = "31">Entertainment: Japanese Anime & Manga</option>'+
                                     '<option value = "32">Entertainment: Cartoon & Animations</option>'+
                                     '</select>'+
-                                   ' <select id="difficulty">'+
-                                       ' <option value = "">Any Difficulty</option>'+
-                                        '<option value = "easy">Easy</option>'+
-                                       ' <option value = "medium">Medium</option>'+
-                                        '<option value = "hard">Hard</option>'+
-                                   ' </select>'+
+                                    '<select id="gameTime">'+
+                                        '<option value = "60" selected>1 minute</option>'+
+                                       ' <option value = "90">1.5 minutes</option>'+
+                                    '</select> ' +
                                 '<div class="inputGroup">'+
                                     '<input id="quick-radio" name="radio" type="radio" onclick="checkRadios()"/>'+
                                     '<label for="quick-radio">Quick One</label>'+
@@ -133,18 +131,29 @@ const themeGame = (
 
     '<div id="themeGame"  class="grey lighten-3">'+
                     '<div class="game--container">'+
+                    '<div id="modal--stats" class="modal">'+
+                        '<div class="modal--stats__content">'+
+                            '<p>Current score: <span class="current--score">0</span></p>'+
+                            '<p>Personal best: <span class="personalbest--score">0</span></p>'+
+                            '<p>Best to beat: <span class="best--score">0</span></p>'+
+                        '</div>'+
+                        '<button class="waves-effect waves-light btn btn-small btn-exit green darken-2 modal-close">Exit</button>'+
+                    '</div>'+
+                    '<div id="modal-confirmation" class="modal">'+
+                       ' <p>Are you sure you want to Quit?</p>'+
+                        '<button class="waves-effect waves-light btn btn-large btn-yes red lighten-1 modal-close">Yes!</button>'+
+                        '<button class="waves-effect waves-light btn btn-large btn-no green darken-2 modal-close">No!</button>'+
+                   ' </div>'+
                     '<div class="correct--answers__display"></div>'+
+                    '<div class="incorrect--answers__display"></div>'+
                         '<div class="themeGame--description">'+
                         '<p class="category"></p>'+
                         '<p class="difficulty"></p>'+
-                            '<div class="progress">'+
-                                '<p class="progress--statusText">Question %numOfCurrentQuestion% / %totalQuestionsNum%</p>'+
-                                '<div class="progress--statusBar"><div class="progress--statusBarDiv"></div></div>'+
-                            '</div>'+
-                            '<button id="btn--quitThemeGame" class="waves-effect waves-light btn btn-medium red darken-2">QUIT!</button>'+
+                        '<p class="timer">Timer</p>'+
+                            '<button id="btn--quitThemeGame" class="waves-effect waves-light btn btn-medium red lighten-1">QUIT!</button>'+
                        ' </div>'+
                         '<div class="themeGame--questions__wrapper">'+
-                            '<h3 class="themeGame--question">Question</h3>'+
+                            '<h4 class="themeGame--question">Question</h4>'+
                             '<div class="themeGame--questions__answers">'+
                                 '<div class="question--answer ans1">'+
                                     '%Ans1%'+
