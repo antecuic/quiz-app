@@ -4,7 +4,12 @@
     box-sizing: border-box;
     font-size: 62.5%;
     font-family: 'Montserrat', sans-serif;
+}
 
+.background {
+    background-image: url('/assets/brandi-redd-aJTiW00qqtI-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
 p, span {

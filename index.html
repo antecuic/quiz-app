@@ -222,7 +222,7 @@
     checkRadios = () => {
         const selectWrappers = Array.from(document.querySelectorAll('.select-wrapper'))
         if(document.querySelector('#gameTheme-radio').checked) {
-            document.querySelector('#game--info').innerHTML = 'Game description for category game';
+            document.querySelector('#game--info').innerHTML = 'Choose your favourite category and set new Best to Beat result!';
             selectWrappers.forEach(el => el.style.display = 'block');
         } else {
             document.querySelector('#game--info').innerHTML = 'Game description for quick one game'

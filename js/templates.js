@@ -11,6 +11,7 @@ const userProfileTemplate = (
                    ' <div class="user--data__profileStats">'+ 
                         '<div class="profileStates--container">'+
                             '<p style="display: inline-block; margin-bottom: 0.5rem;">Best Score: <span id="best-score"  style="font-weight: 600;">%score%</span></p>'+
+                            '<p class="bestToBeat-score_container" style="display: inline-block; margin-bottom: 0.5rem;">Best to Beat: <span id="bestToBeat-score"  style="font-weight: 600;"></span></p>'+
                             '<a id="btn-logout" class="waves-effect waves-light btn red darken-1">LogOut</a>'+
                        '</div>'+
                    ' </div>' +
@@ -20,7 +21,7 @@ const userProfileTemplate = (
                     '<div class="user--options__container">'+
                         '<div class="game--types">'+
                            ' <h4>Choose game type:</h4>'+
-                           ' <p id="game--info" style="color: #eee;">Game description for category game</p>'+
+                           ' <p id="game--info" style="color: #eee;">Choose your favourite category and set new Best to Beat result!</p>'+
                             '<form>'+
                                 '<div class="inputGroup">'+                           
                                    ' <input id="gameTheme-radio" name="radio" type="radio" checked onclick="checkRadios()"/>'+
@@ -37,8 +38,8 @@ const userProfileTemplate = (
                                     '<option value = "16">Entertainment: Video Games</option>'+
                                     '<option value = "17">Entertainment: Board Games</option>'+
                                     '<option value = "18">Science and Nature</option>'+
-                                    '<option value = "19">Science Computers</option>'+
-                                    '<option value = "20">Science Mathematics</option>'+
+                                    '<option value = "19">Science: Computers</option>'+
+                                    '<option value = "20">Science: Mathematics</option>'+
                                     '<option value = "21">Mythology</option>'+
                                     '<option value = "22">Sports</option>'+
                                     '<option value = "23">Geography</option>'+
@@ -52,10 +53,6 @@ const userProfileTemplate = (
                                     '<option value = "31">Entertainment: Japanese Anime & Manga</option>'+
                                     '<option value = "32">Entertainment: Cartoon & Animations</option>'+
                                     '</select>'+
-                                    '<select id="gameTime">'+
-                                        '<option value = "60" selected>1 minute</option>'+
-                                       ' <option value = "90">1.5 minutes</option>'+
-                                    '</select> ' +
                                 '<div class="inputGroup">'+
                                     '<input id="quick-radio" name="radio" type="radio" onclick="checkRadios()"/>'+
                                     '<label for="quick-radio">Quick One</label>'+
@@ -135,9 +132,9 @@ const themeGame = (
                         '<div class="modal--stats__content">'+
                             '<p>Current score: <span class="current--score">0</span></p>'+
                             '<p>Personal best: <span class="personalbest--score">0</span></p>'+
-                            '<p>Best to beat: <span class="best--score">0</span></p>'+
+                            '<p>Best to Beat: <span class="best--score"></span></p>'+
                         '</div>'+
-                        '<button class="waves-effect waves-light btn btn-small btn-exit green darken-2 modal-close">Exit</button>'+
+                        '<button class="waves-effect waves-light btn btn-small btn-exit modal-close">Exit</button>'+
                     '</div>'+
                     '<div id="modal-confirmation" class="modal">'+
                        ' <p>Are you sure you want to Quit?</p>'+
@@ -149,7 +146,7 @@ const themeGame = (
                         '<div class="themeGame--description">'+
                         '<p class="category"></p>'+
                         '<p class="difficulty"></p>'+
-                        '<p class="timer">Timer</p>'+
+                        '<p class="timer"></p>'+
                             '<button id="btn--quitThemeGame" class="waves-effect waves-light btn btn-medium red lighten-1">QUIT!</button>'+
                        ' </div>'+
                         '<div class="themeGame--questions__wrapper">'+
