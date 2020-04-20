@@ -199,7 +199,7 @@
         shuffle(answers);
         setUI(answers, question);
 
-        console.log('correct answer ==>>' + correctAnswer)
+        //console.log('correct answer ==>>' + correctAnswer)
         document.querySelector('.category').innerHTML = `Category: "${questions[questionCounter].category}"`;
         document.querySelector('.difficulty').innerHTML = `Difficulty: "${questions[questionCounter].difficulty}"`;
         
