@@ -254,7 +254,6 @@
         Array.from(answerContainers).forEach(el => {
 
             el.addEventListener('click', async (event) => { 
-
                 const userAnswer = event.target;                    
                 const correctAnswer = changeAnswerSpecialChars(questions[questionCounter].correct_answer);
 
@@ -274,19 +273,11 @@
                 if(questionCounter === questions.length - 2) {
                     let newQuestions = await getQuestions(category)
                     Array.prototype.push.apply(questions, newQuestions);
-                    console.log(questions)
                 }    
 
                 setTimeout(() => {
                     questionCounter++;
-                    if (questionCounter < questions.length) {
-                            
-                        setQuestion(questions, questionCounter);
-
-                    } else {
-                            gameOver = true;
-                    };
-
+                    setQuestion(questions, questionCounter);
                     if(gameOver) {
                         const result = Math.round((correctAnswersCounter / questionCounter) * 100) / 100;
                         const showScore = `${correctAnswersCounter} / ${questionCounter}`;
