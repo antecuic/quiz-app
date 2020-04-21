@@ -125,6 +125,8 @@
 
             if(document.querySelector('#gameTheme-radio').checked) {
                 startThemeGame(user);
+            } else {
+                alert("Game still in development!");
             }
 
         });
@@ -269,9 +271,10 @@
 
                 correctAnswerContainer.classList.toggle('correct');
 
-                if(questionCounter === 48 || questionCounter === 98) {
+                if(questionCounter === questions.length - 2) {
                     let newQuestions = await getQuestions(category)
                     Array.prototype.push.apply(questions, newQuestions);
+                    console.log(questions)
                 }    
 
                 setTimeout(() => {
