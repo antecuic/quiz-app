@@ -82,7 +82,7 @@ const modals = (
                                 '<label class="active" for="username" style="display: inline-block;">Email</label>'+
                             '</div>'+
                             '<div class="input-field">'+
-                                '<input  id="passwordLogin" type="text" class="validate" required>'+
+                                '<input  id="passwordLogin" type="password" class="validate" required>'+
                                 '<label class="active" for="password"style="display: inline-block;">Password</label>'+
                            ' </div> ' +
                             '<div class="modal-footer">'+
@@ -114,7 +114,7 @@ const modals = (
                                 '<label class="active" for="Email"style="display: inline-block;">Email</label>'+
                             '</div>'+
                             '<div class="input-field">'+
-                                '<input  id="passwordSignup" type="text" class="validate" required>'+
+                                '<input  id="passwordSignup" type="password" class="validate" required>'+
                                 '<label class="active" for="password"style="display: inline-block;">Password</label>'+
                             '</div>'  +
                            ' <button id="btn-signup" class="btn btn-large waves-effect waves-light green lighten-1">Signup</button>'   + 

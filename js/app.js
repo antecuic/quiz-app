@@ -380,7 +380,7 @@
 
         user.showScore === '' ? document.querySelector('.personalbest--score').innerHTML = `${showScore}` : document.querySelector('.personalbest--score').innerHTML = `${user.showScore}`;
         checkForBestScore();
-        //add here personal best from db
+
         openModal('modal--stats');
         document.querySelector('.modal-overlay').addEventListener('click', () => {
             showUserProfile(user);
