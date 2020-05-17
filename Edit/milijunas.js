@@ -1,30 +1,44 @@
 let correctAnswerCounter = 0;
 let totalMoney = 0;
-let availabeQuestions = [];
 
-window.onload = sendApiRequest()
-
-async function sendApiRequest(){
-    let response = await fetch("https://opentdb.com/api.php?amount=13&difficulty=hard&type=multiple");
-    console.log(response);
+async function sendApiRequest() {
+    let response = await fetch("https://opentdb.com/api.php?amount=13&difficulty=hard&type=multiple%22);
     let data = await response.json()
-    console.log(data);
-    useApiData(data)
+    console.log(data.results);
+    //useApiData(data)
+    setQuestions(data.results);
 }
 
-function useApiData(data){
-    document.querySelector("#question").innerHTML = `Question: ${data.results[0].question}`
-    document.querySelector("#answerA").innerHTML = data.results[0].correct_answer
-    document.querySelector("#answerB").innerHTML = data.results[0].incorrect_answer[0]
-    document.querySelector("#answerC").innerHTML = data.results[0].incorrect_answer[1]
-    document.querySelector("#answerD").innerHTML = data.results[0].incorrect_answer[2]
+shuffleAnswers = (array) => {
+    array.sort(() => Math.random() - 0.5);
+};
+
+getAnswers = (questions) => {
+    let answers = [];
+    questions[0].incorrect_answers.forEach(el => {
+        answers.push(el)
+    })
+
+    const correctAnswer = questions[0].correct_answer;
+    answers.push(correctAnswer);
+    shuffleAnswers(answers);
+    return answers;
 }
 
-let correctButton = document.querySelector("#answerA");
-let lineAnswers = ["#answerB","#answerC","#answerD"];
-let incorrectButton = document.querySelector(lineAnswers);
+setQuestions = (questions) => {
+    const questionContainer = document.querySelector("#question");
+    const answerContainers = [document.querySelector('#answerA'), document.querySelector('#answerB'), document.querySelector('#answerC'), document.querySelector('#answerD')]
+    const answers = getAnswers(questions);
 
-correctButton.addEventListener("click",()=>{
+        questionContainer.innerHTML = questions[0].question
+
+    for (let i = 0; i < answerContainers.length; i++) {
+        answerContainers[i].innerHTML = answers[i]
+    }
+}
+}
+
+correctAnswer.addEventListener("click",()=>{
     correctAnswerCounter = correctAnswerCounter + 1;
     if(correctAnswerCounter == 1){
         totalMoney = totalMoney + 100;
@@ -94,7 +108,7 @@ correctButton.addEventListener("click",()=>{
     sendApiRequest()
 })
 
-incorrectButton.addEventListener("click", ()=>{
+incorrectAnswers.addEventListener("click", ()=>{
      if(correctAnswerCounter = 0){
          document.getElementById("questionMark1").style.diplay="none";
          document.getElementById("wrong1").style.diplay="block";
