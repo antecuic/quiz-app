@@ -329,4 +329,3 @@ const millionaireTemplate = (
  '</div>'+
  '</div>'
 )
-
