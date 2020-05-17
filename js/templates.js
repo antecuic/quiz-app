@@ -55,7 +55,7 @@ const userProfileTemplate = (
                                     '</select>'+
                                 '<div class="inputGroup">'+
                                     '<input id="quick-radio" name="radio" type="radio" onclick="checkRadios()"/>'+
-                                    '<label for="quick-radio">Quick One</label>'+
+                                    '<label for="quick-radio">Millionaire</label>'+
                                ' </div>'+
                             '</form>'+
                             '<button id="btn--play" class="waves-effect waves-light btn blue accent-3">PLAY!</button>'+
