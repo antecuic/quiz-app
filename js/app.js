@@ -17,6 +17,7 @@
         //add auth if modals rendered
         node.contains(document.querySelector('.modals')) ? addAuthFunctionalitiy() : document.querySelector('.wrapper').classList.remove('background');;
 
+        template === millionaireTemplate ? document.querySelector('.container').innerHTML = '' : null;
 
         M.AutoInit();
     };
@@ -392,10 +393,11 @@
     };
 
     startMillionaireGame = (user) => {
-            render(millionaireTemplate, '.container')
+        
+            render(millionaireTemplate, '.wrapper')
+            console.log(user)
             let correctAnswerCounter = 0;
             let totalMoney = 0;
-            let correctAnswer ;
 
         sendApiRequest = async () => {
             const response = await axios.get("https://opentdb.com/api.php?amount=13&difficulty=medium&type=multiple")
